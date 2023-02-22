@@ -1,3 +1,4 @@
 *.zip
-*tsf
+*.tsf
 *data/
+*.log
