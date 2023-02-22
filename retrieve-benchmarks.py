@@ -256,16 +256,15 @@ def retrieve_monash_df(url):
 # Example Usage
 #retrieve_monash_df(df['URL'][1])
 
-project_path = '/Users/jfarland/Documents/research/timeseries-benchmarks'
+project_path = os.getcwd()
 data_path = project_path + '/data'
+if not os.path.exists(data_path):
+    os.makedirs(data_path)
 
-# limit to 1 data set
+# limit to Daily, Monthly and Yearly Datasets
 sample_df = df[df['Frequency'].isin(['Daily', 'Monthly', 'Yearly'])]
 
-#sample_df = sample_df[sample_df['Multivariate']=='Yes']
-#sample_df = sample_df[(sample_df['Download']=='Yearly') & (sample_df['Dataset'] == 'M4')]
-
-print(sample_df)
+print(dt.Frame(sample_df))
 
 for index, row in tqdm(sample_df.iterrows()):
     
