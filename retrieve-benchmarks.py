@@ -208,27 +208,17 @@ def parse_monash_df(file):
     for index,row in tqdm(loaded_data.iterrows()):
         
         name = row.series_name
-        #print(name)
-        values = row.series_value.tolist()
-        length = len(values)
-        start = row.start_timestamp
-        
-        #print(f'STARTING TIMESTAMP: {start}')
-        #$print(f'TIMESERIES LENGTH: {length}')
-        
-        #print(length)
+
         try:
+            values = row.series_value.tolist()
+            length = len(values)
+            start = row.start_timestamp
             ds = pd.date_range(start, periods=length, freq=freq)
             series_df = pd.DataFrame({'unique_id':name,'ds':ds, 'values':values})
         except:
             logging.warning(f'FAILED PARSING TIMESERIES: {name}')
             series_df = pd.DataFrame()
             
-        #convert date range to datetime and automatically coerce errors
-        #ds = pd.to_datetime(ds, errors = 'coerce')
-
-        
-        #series_df = pd.DataFrame({'unique_id':name,'ds':ds, 'values':values})
         parsed_df = pd.concat([parsed_df, series_df], axis=0)
         
     return parsed_df
